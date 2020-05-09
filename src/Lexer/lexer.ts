@@ -1,3 +1,7 @@
+import keywords = require("./keywords");
+import TokType = require("./tokentype");
+import Token from "./token";
+
 function lex(src: string): Token[] {
   const tokens: Token[] = [];
   let start = 0;
@@ -5,7 +9,7 @@ function lex(src: string): Token[] {
   let line = 0;
 
   function eof(): boolean {
-    return current > src.length;
+    return current >= src.length;
   }
 
   function next(): string {
@@ -14,7 +18,7 @@ function lex(src: string): Token[] {
 
   function peek(): string {
     if (current + 1 > src.length) return null;
-    return src.charAt(current + 1);
+    return src.charAt(current);
   }
 
   function peekNext(): string {
@@ -23,6 +27,7 @@ function lex(src: string): Token[] {
   }
 
   function isDigit(c: string): boolean {
+    if (!c) return false;
     return c >= "0" && c <= "9";
   }
 
@@ -39,7 +44,7 @@ function lex(src: string): Token[] {
     const tok = {
       type: type,
       raw: raw,
-      value: literal ? "" : literal,
+      value: literal == undefined ? "" : literal,
       line: line,
       start: start,
       end: current,
@@ -70,5 +75,156 @@ function lex(src: string): Token[] {
     }
   }
 
+  function lexString(quote) {
+    while (peek() !== quote && !eof()) {
+      if (peek() == "\n")
+        throw new Error(`Unterminated String literal at line ${line}`);
+      if (peek() === "\\") next();
+      next();
+    }
+    if (eof()) throw new Error(`Unterminated String literal at line ${line}`);
+    next(); //consume the ending quote
+    addToken(TokType.LITERAL_STR, src.substring(start + 1, current - 1));
+  }
+
+  function match(expected: string): boolean {
+    if (eof()) return false;
+    if (src.charAt(current) !== expected) return false;
+    current++;
+    return true;
+  }
+
+  function expect(expected: string): string {
+    if (eof()) return null;
+    if (src.charAt(current) !== expected)
+      throw new Error(`Expected ${expected} at line ${line}`);
+    current++;
+    return expected;
+  }
+
+  function scanToken(c: string) {
+    switch (c) {
+      case "(":
+        addToken(TokType.L_PAREN);
+        break;
+      case ")":
+        addToken(TokType.R_PAREN);
+        break;
+      case "[":
+        addToken(TokType.L_SQ_BRACE);
+        break;
+      case "]":
+        addToken(TokType.R_SQ_BRACE);
+        break;
+      case "{":
+        addToken(TokType.L_BRACE);
+        break;
+      case "}":
+        addToken(TokType.R_BRACE);
+        break;
+      case ",":
+        addToken(TokType.COMMA);
+        break;
+      case ".":
+        addToken(TokType.DOT);
+        break;
+      case "%":
+        addToken(TokType.MOD);
+        break;
+      case ":":
+        addToken(TokType.COLON);
+        break;
+      case "-":
+        if (match("=")) addToken(TokType.MINUS_EQ);
+        else if (match("-")) addToken(TokType.MINUS_MINUS);
+        else if (match(">")) {
+          addToken(TokType.ARROW);
+        } else addToken(TokType.MINUS);
+        break;
+      case "+":
+        if (match("=")) addToken(TokType.PLUS_EQ);
+        else if (match("+")) addToken(TokType.PLUS_PLUS);
+        else addToken(TokType.PLUS);
+        break;
+      case "*":
+        if (match("=")) {
+          addToken(TokType.STAR_EQ);
+        } else {
+          addToken(TokType.STAR);
+        }
+        break;
+      case "/":
+        addToken(match("=") ? TokType.DIV_EQ : TokType.DIV);
+        break;
+      case "=":
+        if (match("=")) {
+          addToken(TokType.EQ_EQ);
+        } else {
+          addToken(TokType.EQ);
+        }
+
+        break;
+      case "!":
+        addToken(match("=") ? TokType.BANG_EQ : TokType.BANG);
+        break;
+      case "<":
+        if (match("=")) addToken(TokType.LESS_EQ);
+        else addToken(TokType.LESS);
+        break;
+      case ">":
+        addToken(match("=") ? TokType.GREATER_EQ : TokType.GREATER);
+        break;
+      case "&":
+        expect("&");
+        addToken(TokType.AND);
+        break;
+      case "#":
+        let str = "";
+        break;
+      case "|":
+        expect("|");
+        addToken(TokType.OR);
+        break;
+      case " ":
+      case "":
+      case "\r":
+      case "\t":
+        // Ignore whitespace.
+        break;
+      case "\\":
+        if (!match("\n")) throw new Error('Unexpected character "\\"');
+        next();
+        line++;
+        break;
+      case "\n":
+        line++;
+        break;
+      case '"':
+      case "'":
+      case "`":
+        lexString(c);
+        break;
+      default:
+        if (isDigit(c)) {
+          lexNumber();
+        } else if (isAlpha(c)) {
+          lexName();
+        } else {
+          throw new Error("Unexpected character " + c + " at line " + line);
+        }
+        break;
+    }
+  }
+
+  while (!eof()) {
+    start = current;
+    let c: string = next();
+    scanToken(c);
+  }
+
   return tokens;
 }
+
+// test code
+// let toks = lex("1 + 2 - 3 + ada");
+// console.log(toks);

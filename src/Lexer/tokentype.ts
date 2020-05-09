@@ -1,11 +1,3 @@
-interface Token{
-  raw: string,
-  type: TokType,
-  value: null|string|number,
-  line: number,
-  start: number,
-  end: number
-}
 
 
 enum TokType {
@@ -19,6 +11,10 @@ enum TokType {
   R_BRACE,
   L_SQ_BRACE,
   R_SQ_BRACE,
+  COMMA,
+  DOT,
+  COLON,
+  ARROW,
 
   // comparison operatos
   EQ_EQ,
@@ -69,16 +65,20 @@ enum TokType {
   ENUM,
   CLASS,
 
+  // I'll add the type tokens when I work on
+  // static type checking in a separate dev branch
   // types : (these are also keywords)
-  STRING,
-  NUM,
-  BOOL,
-  NIL,
+  // STRING,
+  // NUM,
+  // BOOL,
+  // NIL,
   //LITERALS
 
   LITERAL_NUM,
   LITERAL_STR,
 
   // others
-  NAME
+  NAME,
 }
+
+export  = TokType

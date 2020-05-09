@@ -1,0 +1,26 @@
+{
+  "name": "Sugarscript",
+  "version": "1.0.0",
+  "description": "A compile-to-lua programming language geared towards game development and use in the LOVE game framework but can be used for anything that compiles to lua :)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inJuly0/Sugarscript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inJuly0/Sugarscript/issues"
+  },
+  "homepage": "https://github.com/inJuly0/Sugarscript#readme",
+  "dependencies": {
+    "@types/node": "^13.13.5"
+  }
+}
