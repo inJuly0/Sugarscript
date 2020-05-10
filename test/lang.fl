@@ -1,0 +1,107 @@
+// single line comment
+
+/* multiline comment */
+
+// importing is done using require.
+
+const module = require('module-path')
+
+//variable declaration
+
+var myVar = 1
+var amIKool = true
+// typechecked variables and constants
+
+bool b = false
+string mystring = 'some string'
+num myNum = 123
+const num PI = 3.14
+
+//type casting
+num myVariable = (num) '0'
+
+// non-typechecked functions
+
+func sub(a, b){
+    return a - b;
+}
+
+//type checked function example
+
+func add(num a, num b) -> num {
+    return a + b;
+}
+
+num four = add(2, 2)
+
+// arrays:
+var myArr = [1, 2, 'hello', 4, 5]
+
+//type checked:
+str[] days = ['monday', 'tuesday']
+
+// empty arrays:
+var arr = []
+
+// finding the length of an array:
+var n = #arr
+
+// looping
+
+for(i = 1, 10) {
+    print(i)
+}
+
+// class declaration
+
+class Animal{
+    string sound
+    new(_sound: string){
+        @sound = _sound
+    }
+
+    makeSound(){
+        print(@sound)
+    }
+}
+
+var dog = new Animal('woof woof!')
+// methods are called using : followed by call
+dog:makeSound()
+
+// interfaces 
+
+interface Vec2{
+    x: num,
+    y: num,
+    z: num
+}
+
+// tables (objects):
+
+var Bobbert = {
+    name: 'Bobbert',
+    age: 24,
+    gender: 'male'
+    get gender: () -> {
+        return gender
+    }
+    set gender(gen: string) ->{
+        if (gen == 'male' or gen == 'female') {
+            @gender = gen
+        }
+    }
+}
+
+// enums: 
+
+enum Color{
+    BLUE,
+    BLACK,
+    BROWN,
+    PINK,
+    ORANGE,
+    RED,
+    GREEN
+}
+
