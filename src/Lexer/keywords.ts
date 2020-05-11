@@ -1,4 +1,4 @@
-import TokType = require('./tokentype');
+import TokType = require("./tokentype");
 
 const keywords = Object.freeze({
   or: TokType.OR,
@@ -16,6 +16,14 @@ const keywords = Object.freeze({
   while: TokType.WHILE,
   const: TokType.CONST,
   enum: TokType.ENUM,
+  var: TokType.VAR,
+  string: TokType.STRING,
+  num: TokType.NUM,
+  bool: TokType.BOOL,
+  nil: TokType.NIL,
+  void: TokType.VOID,
+  set: TokType.SET,
+  get: TokType.GET
 });
 
-export = keywords
+export = keywords;

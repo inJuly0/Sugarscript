@@ -28,8 +28,18 @@ func sub(a, b){
 
 //type checked function example
 
-func add(num a, num b) -> num {
+func add(num a, num b): num {
     return a + b;
+}
+
+// arrow functions (lambdas)
+
+const add = (a, b) -> a + b
+
+// arrow functions with bodies
+
+const add = (a, b) -> {
+    return a + b
 }
 
 num four = add(2, 2)
@@ -38,7 +48,7 @@ num four = add(2, 2)
 var myArr = [1, 2, 'hello', 4, 5]
 
 //type checked:
-str[] days = ['monday', 'tuesday']
+string[] days = ['monday', 'tuesday']
 
 // empty arrays:
 var arr = []
@@ -86,7 +96,7 @@ var Bobbert = {
     get gender: () -> {
         return gender
     }
-    set gender(gen: string) ->{
+    set gender(gen: string) -> {
         if (gen == 'male' or gen == 'female') {
             @gender = gen
         }

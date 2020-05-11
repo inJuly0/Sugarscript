@@ -14,7 +14,9 @@ enum TokType {
   COMMA,
   DOT,
   COLON,
+  SEMI_COLON,
   ARROW,
+  AT,
 
   // comparison operatos
   EQ_EQ,
@@ -64,21 +66,26 @@ enum TokType {
   WHILE,
   ENUM,
   CLASS,
+  VAR,
+  SET,
+  GET,
+  INTERFACE,
 
   // I'll add the type tokens when I work on
   // static type checking in a separate dev branch
   // types : (these are also keywords)
-  // STRING,
-  // NUM,
-  // BOOL,
-  // NIL,
+  STRING,
+  NUM,
+  BOOL,
+  VOID,
+  NIL,
   //LITERALS
 
   LITERAL_NUM,
   LITERAL_STR,
 
   // others
-  NAME,
+  NAME
 }
 
 export  = TokType

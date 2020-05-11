@@ -134,6 +134,9 @@ function lex(src: string): Token[] {
       case ":":
         addToken(TokType.COLON);
         break;
+      case ";":
+        addToken(TokType.SEMI_COLON);
+        break;
       case "-":
         if (match("=")) addToken(TokType.MINUS_EQ);
         else if (match("-")) addToken(TokType.MINUS_MINUS);
@@ -154,7 +157,20 @@ function lex(src: string): Token[] {
         }
         break;
       case "/":
-        addToken(match("=") ? TokType.DIV_EQ : TokType.DIV);
+        if (match("=")) {
+          addToken(TokType.DIV_EQ);
+        } else if (match("/")) {
+          while (!(eof() || match("\n"))) next(); //TODO: modify this later to store comments
+          line++;
+        } else if (match("*")) {
+          while (!eof() && !(peek() == "*" && peekNext() == "/")) {
+            if (next() == "\n") line++;
+          }
+          next(); // consume *
+          next(); // consume /
+        } else {
+          addToken(TokType.DIV);
+        }
         break;
       case "=":
         if (match("=")) {
@@ -179,7 +195,7 @@ function lex(src: string): Token[] {
         addToken(TokType.AND);
         break;
       case "#":
-        let str = "";
+        addToken(TokType.POUND);
         break;
       case "|":
         expect("|");
@@ -226,5 +242,5 @@ function lex(src: string): Token[] {
 }
 
 // test code
-// let toks = lex("1 + 2 - 3 + ada");
-// console.log(toks);
+let toks = lex("/*comment*/ hello + 1");
+console.log(toks);
