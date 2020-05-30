@@ -1,117 +1,97 @@
 // single line comment
 
-/* multiline comment */
+/* multi line
+comment */
 
-// importing is done using require.
+// assignment 
 
-const module = require('module-path')
+myNumber = 12
+global globalNumber = 999
+myNumber: num = 12
+myString: string = 'hello'
 
-//variable declaration
-
-var myVar = 1
-var amIKool = true
-// typechecked variables and constants
-
-bool b = false
-string mystring = 'some string'
-num myNum = 123
-const num PI = 3.14
-
-//type casting
-num myVariable = (num) '0'
-
-// non-typechecked functions
-
-func sub(a, b){
-    return a - b;
-}
-
-//type checked function example
-
-func add(num a, num b): num {
-    return a + b;
-}
-
-// arrow functions (lambdas)
-
-const add = (a, b) -> a + b
-
-// arrow functions with bodies
-
-const add = (a, b) -> {
+fun myAdder(a: num, b: num): num 
     return a + b
+
+fun emptyFunc()
+    pass
+
+// lambdas
+
+myAdder = (a: num, b:num) -> a + b
+
+myObject = {
+    name: 'helo',
+    occupation: 'jelo',
+    ['123']: 456,
+    nestedObj: {
+        name: 'Melo'
+        get name()
+            return name
+    }
 }
 
-num four = add(2, 2)
+enum Color
+    RED, BLUE,
+    BLACK, GREEN,
+    YELLOW, ORANGE
 
-// arrays:
-var myArr = [1, 2, 'hello', 4, 5]
 
-//type checked:
-string[] days = ['monday', 'tuesday']
+# loops 
 
-// empty arrays:
-var arr = []
-
-// finding the length of an array:
-var n = #arr
-
-// looping
-
-for(i = 1, 10) {
+for i = 1, 10
     print(i)
-}
 
-// class declaration
+myArray: [number] = [1, 2, 4]
 
-class Animal{
-    string sound
-    new(_sound: string){
-        @sound = _sound
-    }
+for e in myArray 
+    print(e)
 
-    makeSound(){
+n: num = 0
+
+while n < 10 
+    print(n)
+    n += 1
+
+
+# if/else/elseif
+
+if a == 1
+    //do this 
+elif a == 2
+    // do this instead
+else 
+    //do this 
+
+# switch case
+
+match myVar
+    'possible value': 
+        fall 
+    'another possible value':
+        //do this 
+    default
+        print('in default')
+
+# classes and inheritance
+
+class Animal
+    init(sound)
+        @sound = sound 
+        
+    makeSound()
         print(@sound)
-    }
-}
 
-var dog = new Animal('woof woof!')
-// methods are called using : followed by call
-dog:makeSound()
 
-// interfaces 
+class Dog <- Animal
+    bark()
+        makeSound('woof')
 
-interface Vec2{
-    x: num,
-    y: num,
-    z: num
-}
+fun love.load()
+    Resources.load()
 
-// tables (objects):
+fun love.draw()
+    love.graphics.print('hello world')
 
-var Bobbert = {
-    name: 'Bobbert',
-    age: 24,
-    gender: 'male'
-    get gender: () -> {
-        return gender
-    }
-    set gender(gen: string) -> {
-        if (gen == 'male' or gen == 'female') {
-            @gender = gen
-        }
-    }
-}
-
-// enums: 
-
-enum Color{
-    BLUE,
-    BLACK,
-    BROWN,
-    PINK,
-    ORANGE,
-    RED,
-    GREEN
-}
-
+fun love.update(dt)
+    timeElapsed += dt

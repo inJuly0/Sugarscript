@@ -7,6 +7,9 @@ function lex(src: string): Token[] {
   let start = 0;
   let current = 0;
   let line = 0;
+  let currentLevel = 0;
+  const levels = [];
+  const brackets = [];
 
   function eof(): boolean {
     return current >= src.length;
@@ -106,15 +109,21 @@ function lex(src: string): Token[] {
     switch (c) {
       case "(":
         addToken(TokType.L_PAREN);
+        brackets.push(c);
         break;
       case ")":
         addToken(TokType.R_PAREN);
+        if (brackets[brackets.length - 1] == "->") brackets.pop();
+        brackets.pop();
         break;
       case "[":
         addToken(TokType.L_SQ_BRACE);
+        brackets.push(c);
         break;
       case "]":
         addToken(TokType.R_SQ_BRACE);
+        if (brackets[brackets.length - 1] == "->") brackets.pop();
+        brackets.pop();
         break;
       case "{":
         addToken(TokType.L_BRACE);
@@ -214,6 +223,20 @@ function lex(src: string): Token[] {
         break;
       case "\n":
         line++;
+        if (brackets.length && brackets[brackets.length - 1] != "->") break;
+        let n = 0;
+        while (match(" ")) n++;
+        if (peek() == "\n") break;
+        if (n > currentLevel) {
+          levels.push(currentLevel);
+          currentLevel = n;
+          addToken(TokType.INDENT);
+        } else if (n < currentLevel) {
+          while (n < currentLevel) {
+            addToken(TokType.DEDENT);
+            currentLevel = levels.pop();
+          }
+        }
         break;
       case '"':
       case "'":
@@ -241,6 +264,16 @@ function lex(src: string): Token[] {
   return tokens;
 }
 
-// test code
-let toks = lex("/*comment*/ hello + 1");
-console.log(toks);
+// test code\
+// let text = 
+// `
+// fun myFunc()
+//   aFunc = (a, b) -> 
+//     a + b
+//     a + c
+//     return d
+//   return aFunc
+// `
+// // console.log(text)
+// let toks = lex(text);
+// console.log(toks);

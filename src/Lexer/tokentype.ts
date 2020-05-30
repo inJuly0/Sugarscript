@@ -2,6 +2,8 @@
 
 enum TokType {
   // tokens users can't see
+  INDENT, 
+  DEDENT,
   EOF,
 
   //single character tokens :
@@ -65,11 +67,14 @@ enum TokType {
   DO,
   WHILE,
   ENUM,
-  CLASS,
+  CLASS,  
   VAR,
   SET,
   GET,
   INTERFACE,
+  PASS,
+  IMPORT,
+  EXPORT            
 
   // I'll add the type tokens when I work on
   // static type checking in a separate dev branch

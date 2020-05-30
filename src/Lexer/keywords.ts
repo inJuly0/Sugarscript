@@ -23,7 +23,10 @@ const keywords = Object.freeze({
   nil: TokType.NIL,
   void: TokType.VOID,
   set: TokType.SET,
-  get: TokType.GET
+  get: TokType.GET,
+  pass: TokType.PASS,
+  import: TokType.IMPORT, 
+  export: TokType.EXPORT
 });
 
 export = keywords;
