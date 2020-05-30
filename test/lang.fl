@@ -7,10 +7,10 @@ comment */
 
 myNumber = 12
 global globalNumber = 999
-myNumber: num = 12
-myString: string = 'hello'
+myNumber = 12
+myString = 'hello'
 
-fun myAdder(a: num, b: num): num 
+fun myAdder(a, b) 
     return a + b
 
 fun emptyFunc()
@@ -18,18 +18,18 @@ fun emptyFunc()
 
 // lambdas
 
-myAdder = (a: num, b:num) -> a + b
+myAdder = (a, b:num) -> a + b
 
 myObject = {
-    name: 'helo',
-    occupation: 'jelo',
-    ['123']: 456,
-    nestedObj: {
-        name: 'Melo'
+    name'helo',
+    occupation'jelo',
+    ['123']456,
+    nestedObj{
+        name'Melo'
         get name()
             return name
     }
-}
+}    
 
 enum Color
     RED, BLUE,
@@ -42,12 +42,12 @@ enum Color
 for i = 1, 10
     print(i)
 
-myArray: [number] = [1, 2, 4]
+myArray = [1, 2, 4]
 
 for e in myArray 
     print(e)
 
-n: num = 0
+n = 0
 
 while n < 10 
     print(n)
@@ -66,7 +66,7 @@ else
 # switch case
 
 match myVar
-    'possible value': 
+    'possible value'
         fall 
     'another possible value':
         //do this 
@@ -76,9 +76,13 @@ match myVar
 # classes and inheritance
 
 class Animal
+    sound
+    static animalCount = 0
+    
     init(sound)
         @sound = sound 
-        
+        animalCount += 1
+
     makeSound()
         print(@sound)
 
@@ -86,6 +90,9 @@ class Animal
 class Dog <- Animal
     bark()
         makeSound('woof')
+
+    static printDogStuff()
+        print('dogs are nice and kool')
 
 fun love.load()
     Resources.load()

@@ -277,3 +277,5 @@ function lex(src: string): Token[] {
 // // console.log(text)
 // let toks = lex(text);
 // console.log(toks);
+
+export = lex

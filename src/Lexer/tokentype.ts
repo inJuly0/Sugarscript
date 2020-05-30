@@ -74,7 +74,7 @@ enum TokType {
   INTERFACE,
   PASS,
   IMPORT,
-  EXPORT            
+  EXPORT,            
 
   // I'll add the type tokens when I work on
   // static type checking in a separate dev branch
