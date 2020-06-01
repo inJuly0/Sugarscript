@@ -1,104 +1,66 @@
-// single line comment
-
-/* multi line
+// single line comment 
+/* multi
+line 
 comment */
 
-// assignment 
+let a = 2
+let b = "string 
+    with 
+    multiple 
+    lines"
 
-myNumber = 12
-global globalNumber = 999
-myNumber: num = 12
-myString: string = 'hello'
+let c:bool = true 
 
-fun myAdder(a: num, b: num): num 
-    return a + b
+let myArray: [num] = [1, 2, 3, 4, 5]
 
-fun emptyFunc()
-    pass
+const myString: string = 'hello'
 
-// lambdas
-
-myAdder = (a: num, b:num) -> a + b
-
-myObject = {
-    name: 'helo',
-    occupation: 'jelo',
-    ['123']: 456,
-    nestedObj: {
-        name: 'Melo'
-        get name():
-            return name
-    }
-}    
-
-enum Color
-    RED, BLUE,
-    BLACK, GREEN,
-    YELLOW, ORANGE
+foreach(a: myArray):
+    print(a)
 
 
-# loops 
-
-for i = 1, 10
+for (i = 1, 10): 
     print(i)
 
-myArray: [number] = [1, 2, 4]
 
-for e in myArray 
-    print(e)
+const myObject = {
+    a: 1, 
+    b: 2,
+    c: 4
+}
 
-n: num = 0
+print(myObject.a)
 
-while n < 10 
-    print(n)
-    n += 1
+while(myBool)
+    //do this
 
 
-# if/else/elseif
-
-if a == 1
+if cond:
     //do this 
-elif a == 2
-    // do this instead
-else 
-    //do this 
+elif cond2:
+    //do that 
+else:
+    //come here and do this thing
 
-# switch case
 
-match myVar
-    'possible value': 
-        fall 
-    'another possible value':
-        //do this 
-    default
-        print('in default')
+fun myFunc(a: num, b: num) -> num:
+    return a + b
 
-# classes and inheritance
+fun optArg(a: num, b?:num):
+    return a * (b or 1)
 
-class Animal
-    sound: string
-    static animalCount = 0
+
+class Monster:
+    readonly sound: string
     
-    init(sound: string)
-        @sound: string = sound 
-        animalCount += 1
-
-    makeSound()
+    init(sound: string):
+        @sound = sound
+    
+    makeSound():
         print(@sound)
+    
 
 
-class Dog <- Animal
-    bark()
-        makeSound('woof')
-
-    static printDogStuff()
-        print('dogs are nice and kool')
-
-fun love.load()
-    Resources.load()
-
-fun love.draw()
-    love.graphics.print('hello world')
-
-fun love.update(dt)
-    timeElapsed += dt
+class Goblin <- Monster:
+    init()
+        super('hihi')

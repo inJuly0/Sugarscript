@@ -57,8 +57,6 @@ enum TokType {
   IF,
   ELSE,
   ELIF,
-  TRUE,
-  FALSE,
   FUNC,
   IN,
   FOR,
@@ -74,7 +72,8 @@ enum TokType {
   INTERFACE,
   PASS,
   IMPORT,
-  EXPORT,            
+  EXPORT,
+              
 
   // I'll add the type tokens when I work on
   // static type checking in a separate dev branch
@@ -88,6 +87,8 @@ enum TokType {
 
   LITERAL_NUM,
   LITERAL_STR,
+  TRUE,
+  FALSE,
 
   // others
   NAME

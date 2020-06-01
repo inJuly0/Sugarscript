@@ -10,7 +10,7 @@ enum Type{
     VarDecl,
     ArrayExpr,
     PostUnaryExpr,
-    PreUnaryExpr,
+    UnaryExpr,
     BreakStmt,
     ReturnStmt,
     CondExpr,
