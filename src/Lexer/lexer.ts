@@ -261,21 +261,22 @@ function lex(src: string): Token[] {
     scanToken(c);
   }
 
+  addToken(TokType.EOF);
   return tokens;
 }
 
 // test code\
-// let text = 
+// let text =
 // `
 // fun myFunc()
-//   aFunc = (a, b) -> 
+//   aFunc = (a, b) ->
 //     a + b
 //     a + c
 //     return d
 //   return aFunc
 // `
-// // console.log(text)
+// console.log(text)
 // let toks = lex(text);
 // console.log(toks);
 
-export = lex
+export = lex;

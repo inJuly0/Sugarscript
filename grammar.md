@@ -12,7 +12,7 @@
 # Grammar:
 
 Program -> *Statement
-Statement -> VarDecl | FuncDecl | ClassDecl | FunctionCall | LoopStmt | ifStmt | ReturnStmt
+Statement -> VarDecl | FuncDecl | ClassDecl | FunctionCall | LoopStmt | ifStmt | ReturnStmt | EnumDecl
 VarDecl -> ('let'|'const') NAME *('=' expr)
 NAME -> a..z *(a..z | 0..9 | '_')
 

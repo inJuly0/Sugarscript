@@ -10,29 +10,32 @@ class ASTNode {
   constructor(kind: Type, start?: number, end?: number) {
     this.start = start || -1;
     this.end = end || -1;
-    this.kind = kind
+    this.kind = kind;
   }
 
-  static binaryExpr(left, op, right): BinaryExpr {
+  static binaryExpr(left: ASTNode, op: Token, right: ASTNode): BinaryExpr {
     return new BinaryExpr(left, op, right);
   }
 
-  static unaryExpr(op, operand){
-    return new UnaryExpr(op, operand)
+  static unaryExpr(op: Token, operand: ASTNode) {
+    return new UnaryExpr(op, operand);
   }
 
-  static identifier(tok){
+  static identifier(tok: Token) {
     return new Identifier(tok);
   }
 
-  static literal(tok){
+  static literal(tok: Token) {
     return new Literal(tok);
   }
 
-  static program(){
-    return new Program();
+  static groupingExpr(expr: ASTNode){
+    return new GroupingExpr(expr);
   }
 
+  static program() {
+    return new Program();
+  }
 }
 
 class BinaryExpr extends ASTNode {
@@ -47,39 +50,50 @@ class BinaryExpr extends ASTNode {
   }
 }
 
-class UnaryExpr extends ASTNode{
+class UnaryExpr extends ASTNode {
   op: Token;
   operand: ASTNode;
 
-  constructor(op: Token, operand: ASTNode){
-    super(Type.UnaryExpr)
+  constructor(op: Token, operand: ASTNode) {
+    super(Type.UnaryExpr);
     this.op = op;
-    this.operand = operand
+    this.operand = operand;
   }
 }
 
-class Identifier extends ASTNode{
+class Identifier extends ASTNode {
   token: Token;
   name: string;
-  constructor(token: Token){
+  constructor(token: Token) {
     super(Type.Identifier, token.start, token.end);
   }
 }
 
-class Literal extends ASTNode{
+class Literal extends ASTNode {
   token: Token;
   value: string | number;
-  constructor(token: Token){
+  constructor(token: Token) {
     super(Type.Literal, token.start, token.end);
     this.value = token.value;
   }
 }
 
-class Program extends ASTNode{
-  statements: ASTNode[];
-  constructor(){
-    super(Type.Program);
+class GroupingExpr extends ASTNode{
+  expression: ASTNode;
+  constructor(expr: ASTNode){
+    super(Type.GroupingExpr);
+    this.expression = expr;
   }
 }
 
-export = ASTNode
+class Program extends ASTNode {
+  statements: ASTNode[];
+  constructor() {
+    super(Type.Program);
+    this.statements = [];
+  }
+}
+
+
+
+export = ASTNode;

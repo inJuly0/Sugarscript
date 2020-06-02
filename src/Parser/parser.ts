@@ -6,6 +6,8 @@ function parse(tokens: [Token]) {
   let current = 0;
   let ast = ASTNode.program();
 
+  // Helper functions:
+
   function eof() {
     return current >= tokens.length || tokens[current].type == TokType.EOF;
   }
@@ -24,12 +26,12 @@ function parse(tokens: [Token]) {
     return tokens[current];
   }
 
-  function peekNext() {
+  function peekNext(): Token {
     if (eof() || current + 1 >= tokens.length) return null;
     return tokens[current + 1];
   }
 
-  function expect(tokType, err) {
+  function expect(tokType: TokType, err?: string) {
     if (!peek() || peek().type != tokType) throw new Error(err);
     return next();
   }
@@ -66,6 +68,10 @@ function parse(tokens: [Token]) {
     }
     return false;
   }
+
+  // A recursive descent expression parser:
+  // expr -> assignment -> or -> and -> eq -> comparison -> add -> mult -> power -> unary -> primary
+  // TODO : add suport for function call, member access expressions, function expressions.
 
   function expression(): ASTNode {
     return assignment();
@@ -135,7 +141,7 @@ function parse(tokens: [Token]) {
 
   function unary(): ASTNode {
     if (match(TokType.BANG, TokType.MINUS, TokType.NOT)) {
-      let expr = ASTNode.unaryExpr(prev(), unary());
+      return ASTNode.unaryExpr(prev(), unary());
     }
     return primary();
   }
@@ -143,13 +149,21 @@ function parse(tokens: [Token]) {
   function primary(): ASTNode {
     if (match(TokType.NAME)) return ASTNode.identifier(prev());
     if (isLiteral(peek())) return ASTNode.literal(next());
+    if (match(TokType.L_PAREN)) {
+      const start: number = prev().start;
+      const expr = expression();
+      const node: ASTNode = ASTNode.groupingExpr(expr);
+      node.start = start;
+      node.end = expect(TokType.R_PAREN).end;
+      return node;
+    }
   }
 
-  while(!match(TokType.EOF)){
-    ast.statements.push(expression())
+  while (!eof()) {
+    ast.statements.push(expression());
   }
 
-  return ast
+  return ast;
 }
 
 export = parse;
