@@ -61,6 +61,7 @@ function parse(tokens: [Token]) {
 
   function match(...types: TokType[]): boolean | Token {
     if (eof()) return false;
+
     for (let type of types) {
       if (peek().type === type) {
         return next();
@@ -79,6 +80,7 @@ function parse(tokens: [Token]) {
 
   function assignment(): ASTNode {
     let expr = or();
+
     while (match(TokType.EQ)) {
       expr = ASTNode.binaryExpr(expr, prev(), assignment());
     }
@@ -87,6 +89,7 @@ function parse(tokens: [Token]) {
 
   function or(): ASTNode {
     let expr = and();
+
     while (match(TokType.AND)) {
       expr = ASTNode.binaryExpr(expr, prev(), and());
     }
@@ -95,6 +98,7 @@ function parse(tokens: [Token]) {
 
   function and(): ASTNode {
     let expr = eq();
+
     while (match(TokType.AND)) {
       expr = ASTNode.binaryExpr(expr, prev(), eq());
     }
@@ -110,6 +114,7 @@ function parse(tokens: [Token]) {
 
   function comparison(): ASTNode {
     let expr = add();
+
     while (
       match(TokType.LESS_EQ, TokType.GREATER_EQ, TokType.LESS, TokType.GREATER)
     )
@@ -119,6 +124,7 @@ function parse(tokens: [Token]) {
 
   function add(): ASTNode {
     let expr = mult();
+
     while (match(TokType.PLUS, TokType.MINUS))
       expr = ASTNode.binaryExpr(expr, prev(), mult());
     return expr;
@@ -126,6 +132,7 @@ function parse(tokens: [Token]) {
 
   function mult(): ASTNode {
     let expr = unary();
+
     while (match(TokType.STAR, TokType.DIV, TokType.MOD))
       expr = ASTNode.binaryExpr(expr, prev(), pow());
     return expr;
@@ -133,6 +140,7 @@ function parse(tokens: [Token]) {
 
   function pow(): ASTNode {
     let expr = unary();
+
     while (match(TokType.POW)) {
       expr = ASTNode.binaryExpr(expr, prev(), unary());
     }
@@ -143,12 +151,15 @@ function parse(tokens: [Token]) {
     if (match(TokType.BANG, TokType.MINUS, TokType.NOT)) {
       return ASTNode.unaryExpr(prev(), unary());
     }
+
     return primary();
   }
 
   function primary(): ASTNode {
     if (match(TokType.NAME)) return ASTNode.identifier(prev());
+
     if (isLiteral(peek())) return ASTNode.literal(next());
+
     if (match(TokType.L_PAREN)) {
       const start: number = prev().start;
       const expr = expression();
